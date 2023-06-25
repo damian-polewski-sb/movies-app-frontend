@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 const Register = () => {
     return (
         <section className="flex items-center justify-center h-screen bg-blue-950">
@@ -9,7 +11,9 @@ const Register = () => {
                             It's a place where you can find all the best movies, create list of shows you want to watch, share your opinion on the things you watch and many more!
                         </p>
                         <span className="text-sm">Do you have an account?</span>
-                        <button className="w-1/2 p-2 font-bold text-gray-900 bg-white border-none cursor-pointer">Login</button>
+                        <Link to='/login'>
+                            <button className="w-1/2 p-2 font-bold text-gray-900 bg-white border-none cursor-pointer">Login</button>
+                        </Link>
                     </div>
                 </div>
                 <div className="flex flex-col justify-center flex-1 gap-6 p-12">
