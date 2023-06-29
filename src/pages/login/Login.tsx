@@ -1,6 +1,15 @@
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../../context/authContext'
 
 const Login = () => {
+
+    const { login } = useContext(AuthContext)
+    
+    const handleLogin = () => {
+        login()
+    }
+
     return (
         <section className="flex items-center justify-center h-screen bg-gray-900">
             <div className="flex w-1/2 overflow-hidden bg-white rounded-lg">
@@ -21,7 +30,7 @@ const Login = () => {
                     <form className="flex flex-col gap-5">
                         <input className="px-2 py-4 border-b-2 border-slate-200 focus:outline-none" type="text" placeholder="E-mail" />
                         <input className="px-2 py-4 border-b-2 border-slate-200 focus:outline-none" type="password" placeholder="Password" />
-                        <button className="w-1/2 p-2 font-bold text-white bg-blue-900 border-0 cursor-pointer">Login</button>
+                        <button onClick={handleLogin} className="w-1/2 p-2 font-bold text-white bg-blue-900 border-0 cursor-pointer">Login</button>
                     </form>
                 </div>
             </div>

@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { AuthContext } from './context/authContext';
 
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
@@ -8,9 +10,9 @@ import Profile from './pages/profile/Profile';
 
 import Layout from './components/Layout/Layout';
 
+
 function App() {
-  // TODO: Change to actual user authentication
-  const currentUser = true
+  const { currentUser } = useContext(AuthContext)
 
   const ProtectedRoute = ({ children }: any) => {
     if(!currentUser) {

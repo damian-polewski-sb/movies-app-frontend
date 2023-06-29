@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom'
 import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Fragment, useContext } from 'react'
 
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
+import { AuthContext } from '../../context/authContext';
 
 const Navbar = () => {
+
+    const { currentUser } = useContext(AuthContext)
 
     const UserDropdown = () => {
         return (
             <Menu as="div">
                 <Menu.Button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
                     <div className="w-8 h-8 rounded-full">
-                        <img src='img/user-placeholder.png' alt="user" />    
+                        <img src={currentUser?.profilePicture} alt="user" />    
                     </div>
                 </Menu.Button>
                 <Transition
@@ -27,10 +30,10 @@ const Navbar = () => {
                     <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <div className="px-1 py-1">
                             <Menu.Item>
-                                <span className='flex items-center w-full px-2 py-2 text-sm text-gray-900 rounded-md group'>Jan Kowalski</span>
+                                <span className='flex items-center w-full px-2 py-2 text-sm text-gray-900 rounded-md group'>{currentUser?.name}</span>
                             </Menu.Item>
                             <Menu.Item>
-                                <span className='flex items-center w-full px-2 py-2 text-sm text-gray-500 rounded-md group'>jan.kowalski@example.com</span>
+                                <span className='flex items-center w-full px-2 py-2 text-sm text-gray-500 rounded-md group'>{currentUser?.email}</span>
                             </Menu.Item>
                         </div>
                         <div className="px-1 py-1">
