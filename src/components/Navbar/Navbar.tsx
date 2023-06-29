@@ -14,7 +14,7 @@ const Navbar = () => {
         return (
             <Menu as="div">
                 <Menu.Button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
-                    <div className="w-8 h-8 rounded-full">
+                    <div className="w-8 h-8 overflow-hidden rounded-full">
                         <img src={currentUser?.profilePicture} alt="user" />    
                     </div>
                 </Menu.Button>
