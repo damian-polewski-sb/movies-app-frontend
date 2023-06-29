@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const Login = () => {
     return (
-        <section className="flex items-center justify-center h-screen bg-blue-950">
+        <section className="flex items-center justify-center h-screen bg-gray-900">
             <div className="flex w-1/2 overflow-hidden bg-white rounded-lg">
                 <div className="flex flex-1 bg-center bg-cover bg-login-card-image h-[600px]">
                     <div className="flex flex-col justify-center w-full h-full gap-6 p-12 text-white select-none bg-blue-500/20 backdrop-brightness-75">

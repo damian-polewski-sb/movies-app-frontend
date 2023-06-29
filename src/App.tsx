@@ -1,19 +1,34 @@
-import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom'
+
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
-import { Routes, Route } from 'react-router-dom'
+import Home from './pages/home/Home';
+import Browse from './pages/browse/Browse';
+import Profile from './pages/profile/Profile';
+
 import Layout from './components/Layout/Layout';
 
 function App() {
+  // TODO: Change to actual user authentication
+  const currentUser = true
+
+  const ProtectedRoute = ({ children }: any) => {
+    if(!currentUser) {
+      return <Navigate to='/login' />
+    }
+
+    return children
+}
+
+
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
-        {/* public routes */}
-        <Route path='login' element={<Login />} />
-        <Route path='register' element={<Register />} />
-
-        {/* protected routes */}
-        <Route path='home' element={<div>Home</div>} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+      <Route path='/' element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+        <Route path='home' element={<Home />} />
+        <Route path='browse' element={<Browse />} />
+        <Route path='profile/:id' element={<Profile />} />
 
         {/* catch all */}
         <Route path='*' element={<div>Missing</div>} />
