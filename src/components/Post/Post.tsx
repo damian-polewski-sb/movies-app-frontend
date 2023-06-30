@@ -26,7 +26,7 @@ const Post: React.FC<{post: PostType}> = ({post}) => {
     const liked = false
 
     return (
-        <div className="p-4 text-white bg-gray-900 rounded-lg  drop-shadow-lg">
+        <div className='p-4 text-white bg-gray-900 rounded-lg drop-shadow-lg'>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-4'>
                     <img className='object-cover w-10 h-10 rounded-full' src={post.profilePicture} alt="user" />

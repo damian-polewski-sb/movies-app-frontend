@@ -3,9 +3,9 @@ import Comment from '../Comment/Comment'
 import { AuthContext } from '../../context/authContext'
 
 const Comments = () => {
-
     const { currentUser } = useContext(AuthContext)
 
+    // Temporary data
     const comments = [
         {
             id: 1,
