@@ -28,7 +28,7 @@ export const AuthContextProvider: React.FC<{children: ReactElement}> = ({ childr
             id: 1,
             name: 'Jan Kowalski',
             email: 'jankowalski@example.com',
-            profilePicture: 'https://pixabay.com/get/g24abee1c3412bffe4bc3e7d7428d692437f4450f00412050b56a78a6b7c349e0fe6e135a77fe2a939223eb67a7b18589d21b772eac1ca2ace10b6907d1c4015107288e3843e802dd07abfb6c294b9413_640.png'
+            profilePicture: 'https://pixabay.com/get/g39e36aedf7f9ff028ae3cfa745ad90b190de3573918bdf9250d5c22b4c3ddfcdee8b79bc6c5660c9bf16f9ca0349a82721939d40ca486baa4c6d5fbb993e2e0520f4c20f65af0205e4f66cb995ae10c8_640.jpg'
         })
     }
 
