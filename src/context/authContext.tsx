@@ -5,6 +5,7 @@ interface User {
     name: string
     email: string
     profilePicture: string
+    coverPicture: string
 }
 
 interface AuthContextType {
@@ -28,7 +29,8 @@ export const AuthContextProvider: React.FC<{children: ReactElement}> = ({ childr
             id: 1,
             name: 'Jan Kowalski',
             email: 'jankowalski@example.com',
-            profilePicture: 'https://pixabay.com/get/g39e36aedf7f9ff028ae3cfa745ad90b190de3573918bdf9250d5c22b4c3ddfcdee8b79bc6c5660c9bf16f9ca0349a82721939d40ca486baa4c6d5fbb993e2e0520f4c20f65af0205e4f66cb995ae10c8_640.jpg'
+            profilePicture: 'https://pixabay.com/get/g39e36aedf7f9ff028ae3cfa745ad90b190de3573918bdf9250d5c22b4c3ddfcdee8b79bc6c5660c9bf16f9ca0349a82721939d40ca486baa4c6d5fbb993e2e0520f4c20f65af0205e4f66cb995ae10c8_640.jpg',
+            coverPicture: 'https://pixabay.com/get/gb064785116747d498da342d6fc0d7babae4122d066000545ce1c24390882552d8c558079d79fa889f16b9afadbc64500a474fe56b5c4c56f2646cda992d716fb_1920.jpg'
         })
     }
 
