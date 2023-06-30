@@ -5,9 +5,9 @@ const Layout = () => {
     return (
         <>
             <Navbar />
-            <main>
+            <div className='h-screen bg-gray-800'>
                 <Outlet />
-            </main>
+            </div>
         </>
     )
 }

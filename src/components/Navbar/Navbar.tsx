@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useContext } from 'react'
 
+import { AuthContext } from '../../context/authContext';
+
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AuthContext } from '../../context/authContext';
 
 const Navbar = () => {
 
@@ -77,8 +78,8 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="sticky top-0 bg-gray-900 border-gray-200">
-            <div className="flex flex-wrap items-center justify-between max-w-screen-xl p-4 mx-auto">
+        <nav className="sticky top-0 z-50 bg-gray-900 border-b border-gray-700">
+            <div className="flex flex-wrap items-center justify-between max-w-screen-lg p-4 mx-auto">
                 <Link to='/home' className="flex items-center">
                     <span className="self-center text-2xl font-semibold text-white whitespace-nowrap">Movies App</span>
                 </Link>
