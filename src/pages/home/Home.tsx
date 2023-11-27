@@ -1,5 +1,5 @@
-import Posts from "../../components/Posts/Posts"
-import TrendingDisplay from "../../components/TrendingDisplay/TrendingDisplay"
+import Posts from "components/Posts/Posts"
+import TrendingDisplay from "components/TrendingDisplay/TrendingDisplay"
 
 const Home = () => {
     return (
