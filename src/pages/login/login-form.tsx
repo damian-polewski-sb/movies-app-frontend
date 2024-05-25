@@ -9,9 +9,16 @@ import { LoginUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
 import { AxiosError } from "axios";
 
+import { AuthContext } from "context/auth-provider";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
 const SIGNIN_URL = "/auth/local/signin";
 
 export const LoginForm = () => {
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -34,7 +41,9 @@ export const LoginForm = () => {
         }
       );
 
-      console.log(response.data);
+      const accessToken = response?.data?.accessToken;
+      setAuth({ email: data.email, accessToken });
+      navigate("/home")
       toast.success("Login successful!");
     } catch (err: unknown) {
       if (err instanceof AxiosError) {

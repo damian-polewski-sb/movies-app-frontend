@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AuthContext } from "./context/authContext";
+import { AuthContext } from "./context/auth-provider";
 
 import { LoginPage } from "pages/login/login";
 import { RegisterPage } from "pages/register/register";
@@ -11,10 +11,10 @@ import Profile from "pages/profile/Profile";
 import Layout from "components/Layout/Layout";
 
 function App() {
-  const { currentUser } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
 
   const ProtectedRoute = ({ children }: any) => {
-    if (!currentUser) {
+    if (!auth) {
       return <Navigate to="/login" />;
     }
 

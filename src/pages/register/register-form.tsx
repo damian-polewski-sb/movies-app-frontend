@@ -1,17 +1,24 @@
-import axios from "api/axios";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import axios from "api/axios";
+
 
 import { FormField } from "components/form/form-field";
 import { RegisterUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
-import { AxiosError } from "axios";
+import { AuthContext } from "context/auth-provider";
 
 const SIGNUP_URL = "/auth/local/signup";
 
 export const RegisterForm = () => {
+  const { setAuth } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -36,8 +43,10 @@ export const RegisterForm = () => {
         }
       );
 
-      console.log(response.data);
-      toast.success("Account created!");
+      const accessToken = response?.data?.accessToken;
+      setAuth({ email: data.email, accessToken });
+      navigate("/home");
+      toast.success("Account created successfully!");
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         if (err.response?.status === 409) {

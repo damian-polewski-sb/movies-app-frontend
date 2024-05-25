@@ -1,20 +1,18 @@
-import { useContext } from "react"
-import { AuthContext } from "../../context/authContext"
-
 const Profile = () => {
-    const { currentUser } = useContext(AuthContext)
 
-    return (
-        <main>
-            <div>
-                <img src={currentUser?.coverPicture} alt="cover" />
-                <img src={currentUser?.profilePicture} alt="user" />
-            </div>
-            <div>
-                <span></span>
-            </div>
-        </main>
-    )
-}
+  return (
+    <main>
+      <div>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/6/68/Flickr_-_csztova_-_Andrew_Garfield_-_TIFF_09%27_%281%29_cropped.jpg"
+          alt="user"
+        />
+      </div>
+      <div>
+        <span></span>
+      </div>
+    </main>
+  );
+};
 
-export default Profile
+export default Profile;

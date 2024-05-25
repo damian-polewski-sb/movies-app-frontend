@@ -5,7 +5,8 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "App";
-import { AuthContextProvider } from "context/authContext";
+
+import { AuthProvider } from "context/auth-provider";
 import { ToastProvider } from "utils/toast-provider";
 
 const root = ReactDOM.createRoot(
@@ -13,7 +14,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <AuthContextProvider>
+    <AuthProvider>
       <BrowserRouter>
         <ToastProvider>
           <Routes>
@@ -21,6 +22,6 @@ root.render(
           </Routes>
         </ToastProvider>
       </BrowserRouter>
-    </AuthContextProvider>
+    </AuthProvider>
   </React.StrictMode>
 );
