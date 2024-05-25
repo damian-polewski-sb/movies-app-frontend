@@ -10,6 +10,8 @@ import { useAuth } from "hooks/use-auth";
 export const Navbar = () => {
   const { auth } = useAuth();
 
+  const linkClasses = "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+
   return (
     <nav className="sticky top-0 z-50 bg-gray-900 border-b border-gray-700">
       <div className="flex flex-wrap items-center justify-between max-w-screen-lg p-4 mx-auto">
@@ -42,28 +44,19 @@ export const Navbar = () => {
         >
           <ul className="flex flex-col p-4 mt-4 font-medium border border-gray-100 rounded-lg md:p-0 bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-blue-950 md:dark:bg-gray-900 dark:border-gray-700">
             <li>
-              <a
-                href="/home"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
+              <Link to="/home" className={linkClasses}>
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/profile/1"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
+              <Link to="/profile/1" className={linkClasses}>
                 Profile
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/browse"
-                className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
+              <Link to="/browse" className={linkClasses}>
                 Browse
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
