@@ -1,20 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { AuthContextProvider } from './context/authContext';
+import "./index.css";
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import App from "App";
+import { AuthContextProvider } from "context/authContext";
+import { ToastProvider } from "utils/toast-provider";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path='/*' element={<App />} />
-        </Routes>
+        <ToastProvider>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </ToastProvider>
       </BrowserRouter>
     </AuthContextProvider>
   </React.StrictMode>
