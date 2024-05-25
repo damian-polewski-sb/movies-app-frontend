@@ -9,7 +9,7 @@ import { LoginUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
 import { AxiosError } from "axios";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "hooks/use-auth";
 
@@ -17,7 +17,10 @@ const SIGNIN_URL = "/auth/local/signin";
 
 export const LoginForm = () => {
   const { setAuth } = useAuth();
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home";
 
   const {
     register,
@@ -43,8 +46,7 @@ export const LoginForm = () => {
 
       const accessToken = response?.data?.accessToken;
       setAuth({ email: data.email, accessToken });
-      navigate("/home")
-      toast.success("Login successful!");
+      navigate(from, { replace: true });
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         if (err.response?.status === 403) {

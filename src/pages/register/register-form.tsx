@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +15,10 @@ const SIGNUP_URL = "/auth/local/signup";
 
 export const RegisterForm = () => {
   const { setAuth } = useAuth();
+  
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home";
 
   const {
     register,
@@ -43,8 +46,7 @@ export const RegisterForm = () => {
 
       const accessToken = response?.data?.accessToken;
       setAuth({ email: data.email, accessToken });
-      navigate("/home");
-      toast.success("Account created successfully!");
+      navigate(from, { replace: true });
     } catch (err: unknown) {
       if (err instanceof AxiosError) {
         if (err.response?.status === 409) {
