@@ -1,39 +1,44 @@
-import { useContext } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom'
-import { AuthContext } from './context/authContext';
+import { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { AuthContext } from "./context/authContext";
 
-import Login from './pages/login/Login';
-import Register from './pages/register/Register';
-import Home from './pages/home/Home';
-import Browse from './pages/browse/Browse';
-import Profile from './pages/profile/Profile';
+import { LoginPage } from "pages/login/login";
+import { RegisterPage } from "pages/register/register";
+import Home from "pages/home/Home";
+import Browse from "pages/browse/Browse";
+import Profile from "pages/profile/Profile";
 
-import Layout from './components/Layout/Layout';
-
+import Layout from "components/Layout/Layout";
 
 function App() {
-  const { currentUser } = useContext(AuthContext)
+  const { currentUser } = useContext(AuthContext);
 
   const ProtectedRoute = ({ children }: any) => {
-    if(!currentUser) {
-      return <Navigate to='/login' />
+    if (!currentUser) {
+      return <Navigate to="/login" />;
     }
 
-    return children
-}
-
+    return children;
+  };
 
   return (
     <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/' element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-        <Route path='home' element={<Home />} />
-        <Route path='browse' element={<Browse />} />
-        <Route path='profile/:id' element={<Profile />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="home" element={<Home />} />
+        <Route path="browse" element={<Browse />} />
+        <Route path="profile/:id" element={<Profile />} />
 
         {/* catch all */}
-        <Route path='*' element={<div>Missing</div>} />
+        <Route path="*" element={<div>Missing</div>} />
       </Route>
     </Routes>
   );
