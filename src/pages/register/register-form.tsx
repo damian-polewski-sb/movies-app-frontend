@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
@@ -7,16 +6,15 @@ import { toast } from "react-toastify";
 import { AxiosError } from "axios";
 import axios from "api/axios";
 
-
 import { FormField } from "components/form/form-field";
 import { RegisterUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
-import { AuthContext } from "context/auth-provider";
+import { useAuth } from "hooks/use-auth";
 
 const SIGNUP_URL = "/auth/local/signup";
 
 export const RegisterForm = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
 
   const {

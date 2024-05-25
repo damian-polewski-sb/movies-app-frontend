@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AuthContext } from "./context/auth-provider";
 
 import { LoginPage } from "pages/login/login";
 import { RegisterPage } from "pages/register/register";
@@ -10,8 +8,10 @@ import Profile from "pages/profile/Profile";
 
 import Layout from "components/Layout/Layout";
 
+import { useAuth } from "hooks/use-auth";
+
 function App() {
-  const { auth } = useContext(AuthContext);
+  const { auth } = useAuth();
 
   const ProtectedRoute = ({ children }: any) => {
     if (!auth) {

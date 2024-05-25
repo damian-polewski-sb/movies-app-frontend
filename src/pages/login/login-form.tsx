@@ -9,14 +9,14 @@ import { LoginUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
 import { AxiosError } from "axios";
 
-import { AuthContext } from "context/auth-provider";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "hooks/use-auth";
 
 const SIGNIN_URL = "/auth/local/signin";
 
 export const LoginForm = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
 
   const {
