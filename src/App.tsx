@@ -8,6 +8,7 @@ import Profile from "pages/profile/Profile";
 
 import { Layout } from "components/router/layout";
 import { RequireAuth } from "components/router/require-auth";
+import { PersistLogin } from "components/router/persist-login";
 
 export const App = () => {
   return (
@@ -18,13 +19,15 @@ export const App = () => {
 
       <Route path="/" element={<Layout />}>
         {/* protected routes */}
-        <Route element={<RequireAuth />}>
-          <Route path="home" element={<Home />} />
-          <Route path="browse" element={<Browse />} />
-          <Route path="profile/:id" element={<Profile />} />
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="home" element={<Home />} />
+            <Route path="browse" element={<Browse />} />
+            <Route path="profile/:id" element={<Profile />} />
 
-          {/* catch all */}
-          <Route path="*" element={<div>Missing</div>} />
+            {/* catch all */}
+            <Route path="*" element={<div>Missing</div>} />
+          </Route>
         </Route>
       </Route>
     </Routes>
