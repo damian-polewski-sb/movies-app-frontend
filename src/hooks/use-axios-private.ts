@@ -31,6 +31,7 @@ export const useAxiosPrivate = () => {
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosPrivate(prevRequest);
         }
+        
         return Promise.reject(error);
       }
     );

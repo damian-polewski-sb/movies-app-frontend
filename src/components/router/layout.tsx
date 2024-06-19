@@ -5,7 +5,7 @@ export const Layout = () => {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-800">
+      <main className="min-h-[calc(100vh-65px)] bg-gray-800">
         <Outlet />
       </main>
     </>

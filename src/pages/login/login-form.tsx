@@ -45,6 +45,7 @@ export const LoginForm = () => {
       );
 
       const accessToken = response?.data?.accessToken;
+    
       setAuth({ email: data.email, accessToken });
       navigate(from, { replace: true });
     } catch (err: unknown) {
