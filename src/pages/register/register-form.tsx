@@ -10,15 +10,18 @@ import { FormField } from "components/form/form-field";
 import { RegisterUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
 import { useAuth } from "hooks/use-auth";
+import { useFetchCurrentUser } from "hooks/use-fetch-current-user";
 
 const SIGNUP_URL = "/auth/local/signup";
 
 export const RegisterForm = () => {
   const { setAuth } = useAuth();
-  
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/home";
+
+  const fetchData = useFetchCurrentUser();
 
   const {
     register,
@@ -45,7 +48,9 @@ export const RegisterForm = () => {
       );
 
       const accessToken = response?.data?.accessToken;
-      setAuth({ email: data.email, accessToken });
+      setAuth({ accessToken });
+      await fetchData();
+
       navigate(from, { replace: true });
     } catch (err: unknown) {
       if (err instanceof AxiosError) {

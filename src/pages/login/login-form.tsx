@@ -12,6 +12,7 @@ import { AxiosError } from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "hooks/use-auth";
+import { useFetchCurrentUser } from "hooks/use-fetch-current-user";
 
 const SIGNIN_URL = "/auth/local/signin";
 
@@ -21,6 +22,8 @@ export const LoginForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/home";
+
+  const fetchData = useFetchCurrentUser();
 
   const {
     register,
@@ -45,8 +48,9 @@ export const LoginForm = () => {
       );
 
       const accessToken = response?.data?.accessToken;
-    
-      setAuth({ email: data.email, accessToken });
+      setAuth({ accessToken });
+      await fetchData();
+
       navigate(from, { replace: true });
     } catch (err: unknown) {
       if (err instanceof AxiosError) {

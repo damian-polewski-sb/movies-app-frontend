@@ -24,7 +24,7 @@ export const Navbar = () => {
           {auth && (
             <>
               <NotificationsSummary />
-              <UserDropdown auth={auth} />
+              <UserDropdown />
             </>
           )}
           <button

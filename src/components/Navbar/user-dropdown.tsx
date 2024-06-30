@@ -2,14 +2,14 @@ import { Fragment } from "react";
 
 import { Menu, Transition } from "@headlessui/react";
 
-import { AuthObject } from "context/auth-provider";
 import { useLogout } from "hooks/use-logout";
+import { useAuth } from "hooks/use-auth";
+import { useNavigate } from "react-router-dom";
 
-interface UserDropdownProps {
-  auth: AuthObject;
-}
+export const UserDropdown = () => {
+  const { userData } = useAuth();
 
-export const UserDropdown = ({ auth }: UserDropdownProps) => {
+  const navigate = useNavigate();
   const logout = useLogout();
 
   const handleSignOut = async () => {
@@ -21,7 +21,7 @@ export const UserDropdown = ({ auth }: UserDropdownProps) => {
       <Menu.Button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
         <div className="w-8 h-8 overflow-hidden rounded-full">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/6/68/Flickr_-_csztova_-_Andrew_Garfield_-_TIFF_09%27_%281%29_cropped.jpg"
+            src={userData?.profilePicture}
             alt="user"
           />
         </div>
@@ -40,10 +40,10 @@ export const UserDropdown = ({ auth }: UserDropdownProps) => {
           <div className="p-1">
             <div>
               <span className="flex items-center w-full px-2 py-2 text-sm text-gray-900 rounded-md group">
-                Andrew Garfield
+                {`${userData?.firstName} ${userData?.lastName}`}
               </span>
               <span className="flex items-center w-full px-2 py-2 text-sm text-gray-500 rounded-md group">
-                {auth.email}
+                {userData?.email}
               </span>
             </div>
           </div>
@@ -54,6 +54,7 @@ export const UserDropdown = ({ auth }: UserDropdownProps) => {
                   className={`${
                     active ? "bg-blue-700 text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  onClick={() => {navigate(`/profile/${userData?.id}`)}}
                 >
                   Profile
                 </button>
