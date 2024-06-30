@@ -1,13 +1,21 @@
 import Posts from "components/Posts/Posts";
 import TrendingDisplay from "components/TrendingDisplay/TrendingDisplay";
 import { Container } from "components/ui/container";
+import { Spinner } from "components/ui/spinner";
+import { useAuth } from "hooks/use-auth";
+import { useAxiosPrivate } from "hooks/use-axios-private";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const Image = () => (
-  <img
-    src="https://upload.wikimedia.org/wikipedia/commons/6/68/Flickr_-_csztova_-_Andrew_Garfield_-_TIFF_09%27_%281%29_cropped.jpg"
-    alt="user"
-  />
-);
+interface UserData {
+  id: number;
+  firstName: string;
+  lastName: string;
+  profilePicture: string;
+}
+
+const getUserDataUrl = (userId: number) => `/users/${userId}`;
 
 const FollowButton = ({
   isFollowed,
@@ -61,19 +69,58 @@ const StatsDisplay = ({
 };
 
 export const ProfilePage = () => {
+  const { userId } = useParams();
+  const { userData } = useAuth();
+
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (userId) {
+        try {
+          const response = await axiosPrivate.get(
+            getUserDataUrl(parseInt(userId))
+          );
+
+          setUser(response?.data);
+          setIsLoading(false);
+        } catch {
+          toast.error("User not found!");
+          navigate("/home");
+        }
+      } else {
+        toast.error("User not found!");
+        navigate("/home");
+      }
+    };
+
+    fetchData();
+  }, [axiosPrivate, navigate, userId]);
+
+  /// @ts-expect-error
+  const isCurrentUser = parseInt(userId) === userData?.id;
+
+  if (!user || isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <Container className="flex flex-col max-w-screen-xl px-4">
       <div className="flex flex-col w-full min-w-0 px-6 py-4 text-white bg-gray-900 rounded-lg drop-shadow-lg">
         <div className="flex flex-wrap justify-center">
           <div className="flex items-center justify-center px-4 fw-full lg:w-3/12 lg:order-1">
             <div className="w-40 h-40 overflow-hidden rounded-full shadow-xl">
-              <Image />
+              <img src={user.profilePicture} alt="user" />
             </div>
           </div>
           <div className="w-full px-4 lg:w-4/12 lg:order-2">
             <div className="mt-6 text-center">
               <h3 className="mb-2 text-4xl font-semibold leading-normal text-blueGray-700">
-                Andrew Garfield
+                {`${user.firstName} ${user.lastName}`}
               </h3>
             </div>
             <StatsDisplay
@@ -84,7 +131,9 @@ export const ProfilePage = () => {
           </div>
           <div className="w-full px-4 lg:w-4/12 lg:order-3 lg:text-right">
             <div className="flex justify-center px-3 py-6">
-              <FollowButton isFollowed={false} handleClick={() => {}} />
+              {!isCurrentUser && (
+                <FollowButton isFollowed={false} handleClick={() => {}} />
+              )}
             </div>
           </div>
         </div>

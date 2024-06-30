@@ -4,15 +4,15 @@ import { useAxiosPrivate } from "./use-axios-private";
 const LOGOUT_URL = "/auth/logout";
 
 export const useLogout = () => {
-  const { setAuth } = useAuth();
+  const { setAuth, setUserData } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
   const logout = async () => {
     try {
       await axiosPrivate.post(LOGOUT_URL);
 
-      /// @ts-expect-error
       setAuth(null);
+      setUserData(null);
     } catch (err) {
       console.error(err);
     }

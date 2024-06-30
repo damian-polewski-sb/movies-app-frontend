@@ -23,7 +23,7 @@ export const App = () => {
           <Route element={<RequireAuth />}>
             <Route path="home" element={<Home />} />
             <Route path="browse" element={<Browse />} />
-            <Route path="profile/:id" element={<ProfilePage />} />
+            <Route path="profile/:userId" element={<ProfilePage />} />
 
             {/* catch all */}
             <Route path="*" element={<div>Missing</div>} />

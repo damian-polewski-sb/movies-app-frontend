@@ -8,7 +8,7 @@ import { NotificationsSummary } from "components/navbar/notifications-summary";
 import { useAuth } from "hooks/use-auth";
 
 export const Navbar = () => {
-  const { auth } = useAuth();
+  const { userData } = useAuth();
 
   const linkClasses = "block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
 
@@ -21,7 +21,7 @@ export const Navbar = () => {
           </span>
         </Link>
         <div className="flex items-center gap-4 text-white md:order-2">
-          {auth && (
+          {userData && (
             <>
               <NotificationsSummary />
               <UserDropdown />
@@ -49,7 +49,7 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/profile/1" className={linkClasses}>
+              <Link to={`/profile/${userData?.id}`} className={linkClasses}>
                 Profile
               </Link>
             </li>

@@ -15,9 +15,9 @@ export interface AuthObject {
 
 export type AuthContextType = {
   auth: AuthObject | null;
-  setAuth: (auth: AuthObject) => void;
+  setAuth: (auth: AuthObject | null) => void;
   userData: UserDataObject | null;
-  setUserData: (userData: UserDataObject) => void;
+  setUserData: (userData: UserDataObject | null) => void;
 };
 
 export type AuthProviderProps = PropsWithChildren;
