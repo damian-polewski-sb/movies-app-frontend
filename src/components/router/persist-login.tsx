@@ -26,7 +26,7 @@ export const PersistLogin = () => {
     };
 
     !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
-  }, [auth?.accessToken, fetchData, refresh]);
+  }, [auth?.accessToken, fetchData, refresh, setUserData]);
 
   return <>{isLoading ? <Spinner /> : <Outlet />}</>;
 };

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, MenuButton, MenuItems, MenuItem, Transition } from "@headlessui/react";
 
 import { useLogout } from "hooks/use-logout";
 import { useAuth } from "hooks/use-auth";
@@ -18,14 +18,11 @@ export const UserDropdown = () => {
 
   return (
     <Menu as="div" className="relative inline-block text-left">
-      <Menu.Button className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
+      <MenuButton className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600">
         <div className="w-8 h-8 overflow-hidden rounded-full">
-          <img
-            src={userData?.profilePicture}
-            alt="user"
-          />
+          <img src={userData?.profilePicture} alt="user" />
         </div>
-      </Menu.Button>
+      </MenuButton>
 
       <Transition
         as={Fragment}
@@ -36,7 +33,7 @@ export const UserDropdown = () => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Menu.Items className="absolute right-0 z-10 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <MenuItems className="absolute right-0 z-10 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="p-1">
             <div>
               <span className="flex items-center w-full px-2 py-2 text-sm text-gray-900 rounded-md group">
@@ -48,32 +45,37 @@ export const UserDropdown = () => {
             </div>
           </div>
           <div className="p-1">
-            <Menu.Item>
+            <MenuItem>
               {({ active }) => (
                 <button
                   className={`${
                     active ? "bg-blue-700 text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                  onClick={() => {navigate(`/profile/${userData?.id}`)}}
+                  onClick={() => {
+                    navigate(`/profile/${userData?.id}`);
+                  }}
                 >
                   Profile
                 </button>
               )}
-            </Menu.Item>
-            <Menu.Item>
+            </MenuItem>
+            <MenuItem>
               {({ active }) => (
                 <button
                   className={`${
                     active ? "bg-blue-700 text-white" : "text-gray-900"
                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  onClick={() => {
+                    navigate("/settings");
+                  }}
                 >
                   Settings
                 </button>
               )}
-            </Menu.Item>
+            </MenuItem>
           </div>
           <div className="p-1">
-            <Menu.Item>
+            <MenuItem>
               {({ active }) => (
                 <button
                   className={`${
@@ -84,9 +86,9 @@ export const UserDropdown = () => {
                   Sign out
                 </button>
               )}
-            </Menu.Item>
+            </MenuItem>
           </div>
-        </Menu.Items>
+        </MenuItems>
       </Transition>
     </Menu>
   );

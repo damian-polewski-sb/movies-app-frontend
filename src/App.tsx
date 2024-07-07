@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { LoginPage } from "pages/login/login";
 import { RegisterPage } from "pages/register/register";
 import { ProfilePage } from "pages/profile/profile";
+import { SettingsPage } from "pages/settings/settings";
 import Home from "pages/home/Home";
 import Browse from "pages/browse/Browse";
 
@@ -24,6 +25,7 @@ export const App = () => {
             <Route path="home" element={<Home />} />
             <Route path="browse" element={<Browse />} />
             <Route path="profile/:userId" element={<ProfilePage />} />
+            <Route path="settings" element={<SettingsPage />} />
 
             {/* catch all */}
             <Route path="*" element={<div>Missing</div>} />
