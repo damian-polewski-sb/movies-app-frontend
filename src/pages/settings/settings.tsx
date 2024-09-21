@@ -18,7 +18,7 @@ import { EditUserSchema } from "components/form/user-schema";
 import { FormFieldVariant, type FormData } from "components/form/types"
 ;
 import { axiosPrivate } from "api/axios";
-import { dataURLtoFile } from "utils/file-utils";
+import { dataURLtoFile, resizeFile } from "utils/file-utils";
 
 import { ImageCropper } from "./image-cropper";
 
@@ -63,7 +63,9 @@ export const SettingsPage = () => {
 
       if (isNewAvatarAdded) {
         const fileObj = dataURLtoFile(avatar, "avatar.jpg");
-        formData.append("file", fileObj);
+        const resizedFile = await resizeFile(fileObj)
+
+        formData.append("file", resizedFile);
       }
       if (data.email) {
         formData.append("email", data.email);

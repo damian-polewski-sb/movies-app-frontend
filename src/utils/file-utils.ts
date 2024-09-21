@@ -1,3 +1,5 @@
+import Resizer from "react-image-file-resizer";
+
 export const dataURLtoFile = (dataurl: string, filename: string) => {
   var arr = dataurl.split(","),
     /// @ts-expect-error
@@ -10,3 +12,19 @@ export const dataURLtoFile = (dataurl: string, filename: string) => {
   }
   return new File([u8arr], filename, { type: mime });
 };
+
+export const resizeFile = (file: File): Promise<File> =>
+  new Promise((resolve) => {
+    Resizer.imageFileResizer(
+      file,
+      360,
+      360,
+      "JPEG",
+      100,
+      0,
+      (uri) => {
+        resolve(uri as File);
+      },
+      "file"
+    );
+  });
