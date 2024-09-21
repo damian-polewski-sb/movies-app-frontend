@@ -42,3 +42,21 @@ export const LoginUserSchema: ZodType<FormData> = z.object({
       "Password must contain at least one special character"
     ),
 });
+
+export const EditUserSchema: ZodType<FormData> = z.object({
+  email: z
+    .string()
+    .email("Invalid email format!")
+    .optional()
+    .or(z.literal("").optional()), // Allow empty string,
+  firstName: z
+    .string()
+    .regex(/^[a-zA-Z]+$/, "First name must contain only letters!")
+    .optional()
+    .or(z.literal("").optional()), // Allow empty string,
+  lastName: z
+    .string()
+    .regex(/^[a-zA-Z]+$/, "Last name must contain only letters!")
+    .optional()
+    .or(z.literal("").optional()), // Allow empty string,
+});
