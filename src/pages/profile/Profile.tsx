@@ -1,5 +1,5 @@
 import Posts from "components/Posts/Posts";
-import TrendingDisplay from "components/TrendingDisplay/TrendingDisplay";
+import { TrendingDisplay } from "components/trending-display/trending-display";
 import { Container } from "components/ui/container";
 import { Spinner } from "components/ui/spinner";
 import { useAuth } from "hooks/use-auth";
