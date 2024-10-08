@@ -1,4 +1,5 @@
 import { Box } from "components/ui";
+import { useNavigate } from "react-router-dom";
 
 interface Content {
   id: number;
@@ -15,6 +16,8 @@ export const LabeledContentDisplay = ({
   content,
   label,
 }: LabeledContentDisplayProps) => {
+  const navigate = useNavigate();
+
   return (
     <Box label={label}>
       <div className="flex flex-wrap justify-between gap-2">
@@ -24,6 +27,7 @@ export const LabeledContentDisplay = ({
             src={element.posterUrl}
             alt={element.title}
             key={element.id}
+            onClick={() => navigate(`/movies/${element.id}`)}
           />
         ))}
       </div>
