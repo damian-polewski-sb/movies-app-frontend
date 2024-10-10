@@ -1,5 +1,5 @@
 import { axiosPrivate } from "api/axios";
-import { LabeledContentDisplay } from "./labeled-content-display";
+import { ContentType, LabeledContentDisplay } from "./labeled-content-display";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -10,7 +10,7 @@ export const TrendingDisplay = () => {
   useEffect(() => {
     const fetchTrendingMoviesData = async () => {
       try {
-        const response = await axiosPrivate.get("/movies/trending-movies");
+        const response = await axiosPrivate.get("/content/trending-movies");
 
         setTrendingMovies(response?.data);
       } catch (error) {
@@ -20,7 +20,7 @@ export const TrendingDisplay = () => {
 
     const fetchTrendingShowsData = async () => {
       try {
-        const response = await axiosPrivate.get("/movies/trending-shows");
+        const response = await axiosPrivate.get("/content/trending-shows");
 
         setTrendingShows(response?.data);
       } catch (error) {
@@ -34,10 +34,15 @@ export const TrendingDisplay = () => {
 
   return (
     <div className="flex flex-col gap-4 text-white">
-      <LabeledContentDisplay content={trendingMovies} label="Trending Movies" />
       <LabeledContentDisplay
-        content={trendingShows}
+        label="Trending Movies"
+        content={trendingMovies}
+        contentType={ContentType.Movie}
+      />
+      <LabeledContentDisplay
         label="Trending TV Shows"
+        content={trendingShows}
+        contentType={ContentType.Show}
       />
     </div>
   );

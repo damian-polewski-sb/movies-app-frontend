@@ -7,14 +7,21 @@ interface Content {
   posterUrl: string;
 }
 
+export enum ContentType {
+  Movie='movie',
+  Show = 'show',
+}
+
 interface LabeledContentDisplayProps {
   label: string;
   content: Content[];
+  contentType: ContentType
 }
 
 export const LabeledContentDisplay = ({
-  content,
   label,
+  content,
+  contentType,
 }: LabeledContentDisplayProps) => {
   const navigate = useNavigate();
 
@@ -27,7 +34,13 @@ export const LabeledContentDisplay = ({
             src={element.posterUrl}
             alt={element.title}
             key={element.id}
-            onClick={() => navigate(`/movies/${element.id}`)}
+            onClick={() =>
+              navigate(
+                `${contentType === ContentType.Movie ? "/movies" : "/shows"}/${
+                  element.id
+                }`
+              )
+            }
           />
         ))}
       </div>

@@ -14,7 +14,7 @@ interface MovieData {
   posterUrl: string;
 }
 
-const getMoviesDataUrl = (movieId: number) => `/movies/${movieId}`;
+const getMoviesDataUrl = (movieId: number) => `/content/movie/${movieId}`;
 
 export const MoviePage = () => {
   const { movieId } = useParams();
