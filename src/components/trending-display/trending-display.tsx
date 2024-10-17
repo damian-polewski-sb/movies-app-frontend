@@ -1,7 +1,8 @@
 import { axiosPrivate } from "api/axios";
-import { ContentType, LabeledContentDisplay } from "./labeled-content-display";
+import { MediaGallery } from "../media/media-gallery";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { MediaType } from "components/media/types";
 
 export const TrendingDisplay = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -34,15 +35,15 @@ export const TrendingDisplay = () => {
 
   return (
     <div className="flex flex-col gap-4 text-white">
-      <LabeledContentDisplay
+      <MediaGallery
         label="Trending Movies"
-        content={trendingMovies}
-        contentType={ContentType.Movie}
+        media={trendingMovies}
+        mediaType={MediaType.Movie}
       />
-      <LabeledContentDisplay
+      <MediaGallery
         label="Trending TV Shows"
-        content={trendingShows}
-        contentType={ContentType.Show}
+        media={trendingShows}
+        mediaType={MediaType.Show}
       />
     </div>
   );
