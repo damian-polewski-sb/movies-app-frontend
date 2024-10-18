@@ -1,11 +1,13 @@
+import { MediaType } from "components/media/types";
 import { Container } from "components/ui/container";
 import { Spinner } from "components/ui/spinner";
 import { useAxiosPrivate } from "hooks/use-axios-private";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getMediaTypeFromPath } from "utils/router-utils";
 
-interface MovieData {
+interface MediaData {
   id: number;
   title: string;
   releaseDate: string;
@@ -14,41 +16,43 @@ interface MovieData {
   posterUrl: string;
 }
 
-const getMoviesDataUrl = (movieId: number) => `/content/movie/${movieId}`;
+const getMediaDataUrl = (id: number, mediaType: MediaType) =>
+  mediaType === MediaType.Movie
+    ? `/content/movie/${id}`
+    : `/content/show/${id}`;
 
-export const MoviePage = () => {
-  const { movieId } = useParams();
+export const MediaPage = () => {
+  const location = useLocation();
+  const mediaType = getMediaTypeFromPath(location.pathname);
+  const { id } = useParams();
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [movie, setMovie] = useState<MovieData | null>(null);
+  const [media, setMedia] = useState<MediaData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (movieId) {
-        try {
-          const response = await axiosPrivate.get(
-            getMoviesDataUrl(parseInt(movieId))
-          );
+      try {
+        if (!id) throw new Error();
 
-          setMovie(response?.data);
-          setIsLoading(false);
-        } catch {
-          toast.error("Movie not found!");
-          navigate("/home");
-        }
-      } else {
-        toast.error("Movie not found!");
+        const response = await axiosPrivate.get(
+          getMediaDataUrl(parseInt(id), mediaType)
+        );
+
+        setMedia(response?.data);
+        setIsLoading(false);
+      } catch {
+        toast.error("Media not found!");
         navigate("/home");
       }
     };
 
     fetchData();
-  }, [axiosPrivate, navigate, movieId]);
+  }, [axiosPrivate, navigate, id, mediaType]);
 
-  if (!movie || isLoading) {
+  if (!media || isLoading) {
     return <Spinner />;
   }
 
@@ -59,21 +63,21 @@ export const MoviePage = () => {
           <div className="flex items-center justify-center w-full lg:w-2/12">
             <img
               className="object-cover overflow-hidden rounded h-60"
-              src={movie.posterUrl}
+              src={media.posterUrl}
               alt="movie poster"
             />
           </div>
           <div className="flex flex-col w-full px-4 lg:w-8/12">
             <div className="flex flex-col justify-center w-full px-4 lg:justify-between lg:flex-row">
               <h3 className="flex justify-center mb-2 text-4xl font-semibold leading-normal">
-                {movie.title}
+                {media.title}
               </h3>
               <span className="flex justify-center px-3 py-6">
-                {`Rating: ${Math.floor(movie.rating)}/10`}
+                {`Rating: ${Math.floor(media.rating)}/10`}
               </span>
             </div>
             <div className="w-full px-4">
-              <p>{movie.overview}</p>
+              <p>{media.overview}</p>
             </div>
           </div>
         </div>

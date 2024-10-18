@@ -1,50 +1,51 @@
-import { axiosPrivate } from "api/axios";
-import { MediaGallery } from "../media/media-gallery";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+
+import { useAxiosPrivate } from "hooks/use-axios-private";
+
+import { MediaGallery } from "components/media/media-gallery";
 import { MediaType } from "components/media/types";
 
-export const TrendingDisplay = () => {
-  const [trendingMovies, setTrendingMovies] = useState([]);
-  const [trendingShows, setTrendingShows] = useState([]);
+interface TrendingMediaGalleryProps {
+  mediaType?: MediaType;
+}
+
+const getTrendingMediaDataUrl = (mediaType: MediaType) =>
+  mediaType === MediaType.Movie
+    ? "/content/trending-movies"
+    : "/content/trending-shows";
+
+export const TrendingMediaGallery = ({
+  mediaType = MediaType.Movie,
+}: TrendingMediaGalleryProps) => {
+  const [trendingMedia, setTrendingMedia] = useState([]);
+
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    const fetchTrendingMoviesData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axiosPrivate.get("/content/trending-movies");
+        const url = getTrendingMediaDataUrl(mediaType)
+        const response = await axiosPrivate.get(url);
 
-        setTrendingMovies(response?.data);
+        setTrendingMedia(response?.data ?? []);
       } catch (error) {
         toast.error(error as string);
       }
     };
 
-    const fetchTrendingShowsData = async () => {
-      try {
-        const response = await axiosPrivate.get("/content/trending-shows");
+    fetchData();
+  }, [axiosPrivate, mediaType]);
 
-        setTrendingShows(response?.data);
-      } catch (error) {
-        toast.error(error as string);
-      }
-    };
-
-    fetchTrendingMoviesData();
-    fetchTrendingShowsData();
-  }, []);
+  const galleryLabel = `Trending ${
+    mediaType === MediaType.Movie ? "Movies" : "Shows"
+  }`;
 
   return (
-    <div className="flex flex-col gap-4 text-white">
-      <MediaGallery
-        label="Trending Movies"
-        media={trendingMovies}
-        mediaType={MediaType.Movie}
-      />
-      <MediaGallery
-        label="Trending TV Shows"
-        media={trendingShows}
-        mediaType={MediaType.Show}
-      />
-    </div>
+    <MediaGallery
+      label={galleryLabel}
+      media={trendingMedia}
+      mediaType={mediaType}
+    />
   );
 };

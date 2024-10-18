@@ -1,5 +1,5 @@
 import Posts from "components/Posts/Posts";
-import { TrendingDisplay } from "components/trending-display/trending-display";
+import { TrendingMediaGallery } from "components/trending-display/trending-display";
 import { Container } from "components/ui/container";
 import { Spinner } from "components/ui/spinner";
 import { useAuth } from "hooks/use-auth";
@@ -80,8 +80,9 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (userId) {
         try {
+          if (!userId) throw new Error()
+
           const response = await axiosPrivate.get(
             getUserDataUrl(parseInt(userId))
           );
@@ -92,10 +93,6 @@ export const ProfilePage = () => {
           toast.error("User not found!");
           navigate("/home");
         }
-      } else {
-        toast.error("User not found!");
-        navigate("/home");
-      }
     };
 
     fetchData();
@@ -143,7 +140,7 @@ export const ProfilePage = () => {
           <Posts />
         </section>
         <aside className="w-1/3">
-          <TrendingDisplay />
+          <TrendingMediaGallery />
         </aside>
       </div>
     </Container>
