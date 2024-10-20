@@ -20,6 +20,8 @@ export const App = () => {
       <Route path="/register" element={<RegisterPage />} />
 
       <Route path="/" element={<Layout />}>
+        <Route index element={<Navigate to="home" replace />} />
+
         {/* protected routes */}
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
