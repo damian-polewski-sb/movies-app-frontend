@@ -12,6 +12,7 @@ import {
   useFocus,
   useHover,
   useInteractions,
+  useMergeRefs,
   useRole,
 } from "@floating-ui/react";
 import {
@@ -60,10 +61,13 @@ export const Tooltip = ({
     role,
   ]);
 
+  const childrenRef = (children as any).ref;
+  const ref = useMergeRefs([context.refs.setReference, childrenRef]);
+
   return (
     <>
       {cloneElement(children as ReactElement, {
-        ref: refs.setReference,
+        ref,
         ...getReferenceProps(),
       })}
       {isOpen && (

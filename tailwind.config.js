@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'login-card-image': "url('img/login-card-image.jpg')",
-        'register-card-image': "url('img/register-card-image.jpg')",
+        'login-card-image': "url('../public/img/login-card-image.jpg')",
+        'register-card-image': "url('../public/img/register-card-image.jpg')",
       }
     },
   },

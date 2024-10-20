@@ -5,13 +5,14 @@ import { useAxiosPrivate } from "hooks/use-axios-private";
 
 import { MediaGallery } from "components/media/media-gallery";
 import { MediaType } from "components/media/types";
+import { isMovie } from "utils/media-utils";
 
 interface TrendingMediaGalleryProps {
   mediaType?: MediaType;
 }
 
 const getTrendingMediaDataUrl = (mediaType: MediaType) =>
-  mediaType === MediaType.Movie
+  isMovie(mediaType)
     ? "/content/trending-movies"
     : "/content/trending-shows";
 
@@ -38,7 +39,7 @@ export const TrendingMediaGallery = ({
   }, [axiosPrivate, mediaType]);
 
   const galleryLabel = `Trending ${
-    mediaType === MediaType.Movie ? "Movies" : "Shows"
+    isMovie(mediaType) ? "Movies" : "Shows"
   }`;
 
   return (

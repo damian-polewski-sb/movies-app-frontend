@@ -5,6 +5,7 @@ import { useAxiosPrivate } from "hooks/use-axios-private";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { isMovie } from "utils/media-utils";
 import { getMediaTypeFromPath } from "utils/router-utils";
 
 interface MediaData {
@@ -17,7 +18,7 @@ interface MediaData {
 }
 
 const getMediaDataUrl = (id: number, mediaType: MediaType) =>
-  mediaType === MediaType.Movie
+  isMovie(mediaType)
     ? `/content/movie/${id}`
     : `/content/show/${id}`;
 
