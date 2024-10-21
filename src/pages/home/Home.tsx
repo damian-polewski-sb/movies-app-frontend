@@ -1,6 +1,6 @@
 import { MediaType } from "components/media/types";
 import Posts from "components/Posts/Posts";
-import { TrendingMediaGallery } from "components/trending-display/trending-display";
+import { TrendingMediaGallery } from "components/media/trending-media-gallery";
 
 export const HomePage = () => {
   return (

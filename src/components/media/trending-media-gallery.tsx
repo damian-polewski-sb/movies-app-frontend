@@ -8,7 +8,7 @@ import { MediaType } from "components/media/types";
 import { isMovie } from "utils/media-utils";
 
 interface TrendingMediaGalleryProps {
-  mediaType?: MediaType;
+  mediaType: MediaType;
 }
 
 const getTrendingMediaDataUrl = (mediaType: MediaType) =>
@@ -17,7 +17,7 @@ const getTrendingMediaDataUrl = (mediaType: MediaType) =>
     : "/content/trending-shows";
 
 export const TrendingMediaGallery = ({
-  mediaType = MediaType.Movie,
+  mediaType,
 }: TrendingMediaGalleryProps) => {
   const [trendingMedia, setTrendingMedia] = useState([]);
 

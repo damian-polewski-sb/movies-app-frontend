@@ -1,5 +1,6 @@
 import Posts from "components/Posts/Posts";
-import { TrendingMediaGallery } from "components/trending-display/trending-display";
+import { TrendingMediaGallery } from "components/media/trending-media-gallery";
+import { MediaType } from "components/media/types";
 import { Container } from "components/ui/container";
 import { Spinner } from "components/ui/spinner";
 import { useAuth } from "hooks/use-auth";
@@ -80,19 +81,19 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-          if (!userId) throw new Error()
+      try {
+        if (!userId) throw new Error();
 
-          const response = await axiosPrivate.get(
-            getUserDataUrl(parseInt(userId))
-          );
+        const response = await axiosPrivate.get(
+          getUserDataUrl(parseInt(userId))
+        );
 
-          setUser(response?.data);
-          setIsLoading(false);
-        } catch {
-          toast.error("User not found!");
-          navigate("/home");
-        }
+        setUser(response?.data);
+        setIsLoading(false);
+      } catch {
+        toast.error("User not found!");
+        navigate("/home");
+      }
     };
 
     fetchData();
@@ -140,7 +141,7 @@ export const ProfilePage = () => {
           <Posts />
         </section>
         <aside className="w-1/3">
-          <TrendingMediaGallery />
+          <TrendingMediaGallery mediaType={MediaType.Movie} />
         </aside>
       </div>
     </Container>

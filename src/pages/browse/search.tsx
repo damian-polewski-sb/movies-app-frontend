@@ -7,7 +7,7 @@ import { axiosPrivate } from "api/axios";
 
 import { MediaGallery } from "components/media/media-gallery";
 import { MediaData, MediaType } from "components/media/types";
-import { TrendingMediaGallery } from "components/trending-display/trending-display";
+import { TrendingMediaGallery } from "components/media/trending-media-gallery";
 import { Container, Box, Spinner } from "components/ui";
 
 import { getMediaTypeFromPath } from "utils/router-utils";
