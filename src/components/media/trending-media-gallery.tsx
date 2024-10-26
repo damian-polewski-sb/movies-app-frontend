@@ -12,13 +12,12 @@ interface TrendingMediaGalleryProps {
 }
 
 const getTrendingMediaDataUrl = (mediaType: MediaType) =>
-  isMovie(mediaType)
-    ? "/content/trending-movies"
-    : "/content/trending-shows";
+  isMovie(mediaType) ? "/content/trending-movies" : "/content/trending-shows";
 
 export const TrendingMediaGallery = ({
   mediaType,
 }: TrendingMediaGalleryProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [trendingMedia, setTrendingMedia] = useState([]);
 
   const axiosPrivate = useAxiosPrivate();
@@ -26,27 +25,28 @@ export const TrendingMediaGallery = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = getTrendingMediaDataUrl(mediaType)
+        const url = getTrendingMediaDataUrl(mediaType);
         const response = await axiosPrivate.get(url);
 
         setTrendingMedia(response?.data ?? []);
       } catch (error) {
         toast.error(error as string);
+      } finally {
+        setIsLoading(false)
       }
     };
 
     fetchData();
   }, [axiosPrivate, mediaType]);
 
-  const galleryLabel = `Trending ${
-    isMovie(mediaType) ? "Movies" : "Shows"
-  }`;
+  const galleryLabel = `Trending ${isMovie(mediaType) ? "Movies" : "Shows"}`;
 
   return (
     <MediaGallery
       label={galleryLabel}
       media={trendingMedia}
       mediaType={mediaType}
+      isFetchingData={isLoading}
     />
   );
 };

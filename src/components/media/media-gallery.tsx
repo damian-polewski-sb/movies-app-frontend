@@ -7,7 +7,7 @@ import { useEffect } from "react";
 interface MediaGalleryProps {
   label?: string;
   media: MediaData[];
-  mediaType: MediaType;
+  mediaType?: MediaType;
   isFetchingData?: boolean;
   fetchCallback?: () => Promise<void>;
   totalElements?: number | undefined;
@@ -15,9 +15,9 @@ interface MediaGalleryProps {
 
 export const MediaGallery = ({
   label,
-  media,
+  media = [],
   mediaType,
-  isFetchingData,
+  isFetchingData = false,
   fetchCallback,
   totalElements,
 }: MediaGalleryProps) => {
@@ -27,7 +27,13 @@ export const MediaGallery = ({
 
   useEffect(() => {
     const paginate = async () => {
-      if (inView && !isFetchingData && fetchCallback &&(!totalElements || (media.length < totalElements))) fetchCallback();
+      if (
+        inView &&
+        !isFetchingData &&
+        fetchCallback &&
+        (!totalElements || media.length < totalElements)
+      )
+        fetchCallback();
     };
 
     paginate();
@@ -36,6 +42,9 @@ export const MediaGallery = ({
   return (
     <Box label={label}>
       <div className="flex flex-wrap gap-2">
+        {media?.length === 0 && !isFetchingData && (
+          <p className="italic">Nothing to display here...</p>
+        )}
         {media.map((element, index) => (
           <MediaTile
             media={element}

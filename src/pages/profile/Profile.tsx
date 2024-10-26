@@ -1,6 +1,5 @@
 import Posts from "components/Posts/Posts";
-import { TrendingMediaGallery } from "components/media/trending-media-gallery";
-import { MediaType } from "components/media/types";
+import { ProfileMediaGallery } from "components/media/profile-media-gallery";
 import { Container } from "components/ui/container";
 import { Spinner } from "components/ui/spinner";
 import { useAuth } from "hooks/use-auth";
@@ -141,7 +140,7 @@ export const ProfilePage = () => {
           <Posts />
         </section>
         <aside className="w-1/3">
-          <TrendingMediaGallery mediaType={MediaType.Movie} />
+          <ProfileMediaGallery userId={user.id} />
         </aside>
       </div>
     </Container>

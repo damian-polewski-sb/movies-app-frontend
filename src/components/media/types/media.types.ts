@@ -7,4 +7,5 @@ export type MediaData = {
   id: number;
   title: string;
   posterUrl: string;
+  mediaType?: MediaType;
 };

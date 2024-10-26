@@ -6,14 +6,14 @@ import { isMovie } from "utils/media-utils";
 
 interface MediaTileProps {
   media: MediaData;
-  mediaType: MediaType;
+  mediaType?: MediaType;
 }
 
 const getLinkToMediaPage = (id: number, mediaType: MediaType): string =>
   `${isMovie(mediaType) ? "/movies" : "/shows"}/${id}`;
 
 export const MediaTile = forwardRef<HTMLImageElement, MediaTileProps>(
-  ({ media, mediaType }, ref) => {
+  ({ media, mediaType = MediaType.Movie }, ref) => {
     const navigate = useNavigate();
 
     const posterUrl = media.posterUrl || "/img/default-media-poster.jpg"
@@ -26,7 +26,7 @@ export const MediaTile = forwardRef<HTMLImageElement, MediaTileProps>(
           alt={media.title}
           key={media.id}
           draggable={false}
-          onClick={() => navigate(getLinkToMediaPage(media.id, mediaType))}
+          onClick={() => navigate(getLinkToMediaPage(media.id, media.mediaType ?? mediaType))}
           ref={ref}
         />
       </Tooltip>
