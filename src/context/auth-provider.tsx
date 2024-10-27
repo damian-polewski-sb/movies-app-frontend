@@ -1,3 +1,4 @@
+import { List } from "components/media/types/list.types";
 import { PropsWithChildren, createContext, useState } from "react";
 
 export interface UserDataObject {
@@ -8,6 +9,7 @@ export interface UserDataObject {
   profilePicture: string;
   createdAt: string;
   updatedAt: string;
+  lists: List[]
 }
 export interface AuthObject {
   accessToken: string;

@@ -7,6 +7,6 @@ export enum ListType {
 
 export type List = {
   id: number;
-  entries: MediaData[];
+  entries?: MediaData[];
   listType: ListType;
 };
