@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { MediaData, MediaType } from "./types";
-import { Tooltip } from "components/ui/tooltip";
+import { Tooltip } from "components/ui";
 import { forwardRef } from "react";
 import { isMovie } from "utils/media-utils";
 

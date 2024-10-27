@@ -7,8 +7,9 @@ import ReactCrop, {
   makeAspectCrop,
   type Crop,
 } from "react-image-crop";
-
 import { toast } from "react-toastify";
+
+import { Button } from "components/ui";
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
@@ -143,9 +144,7 @@ export const ImageCropper = ({
           </ReactCrop>
 
           <div className="flex justify-end w-full">
-            <button
-              className="px-4 py-2 my-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-pink-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
-              type="button"
+            <Button
               onClick={() => {
                 if (!imageRef.current || !previewCanvasRef.current || !crop) {
                   toast.error(
@@ -171,7 +170,7 @@ export const ImageCropper = ({
               }}
             >
               Add image
-            </button>
+            </Button>
           </div>
         </div>
       )}

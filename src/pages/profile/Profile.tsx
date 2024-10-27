@@ -1,5 +1,6 @@
 import Posts from "components/Posts/Posts";
 import { ProfileMediaGallery } from "components/media/profile-media-gallery";
+import { Button } from "components/ui";
 import { Container } from "components/ui/container";
 import { Spinner } from "components/ui/spinner";
 import { useAuth } from "hooks/use-auth";
@@ -25,13 +26,7 @@ const FollowButton = ({
   handleClick: () => void;
 }) => {
   return (
-    <button
-      className="px-4 py-2 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-pink-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
-      type="button"
-      onClick={handleClick}
-    >
-      {isFollowed ? "Unfollow" : "Follow"}
-    </button>
+    <Button onClick={handleClick}>{isFollowed ? "Unfollow" : "Follow"}</Button>
   );
 };
 

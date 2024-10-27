@@ -12,11 +12,10 @@ import { toast } from "react-toastify";
 
 import { useAuth } from "hooks/use-auth";
 
-import { Container, Spinner, Box } from "components/ui";
+import { Container, Spinner, Box, Button } from "components/ui";
 import { FormField } from "components/form/form-field";
 import { EditUserSchema } from "components/form/user-schema";
-import { FormFieldVariant, type FormData } from "components/form/types"
-;
+import { FormFieldVariant, type FormData } from "components/form/types";
 import { axiosPrivate } from "api/axios";
 import { dataURLtoFile, resizeFile } from "utils/file-utils";
 
@@ -63,7 +62,7 @@ export const SettingsPage = () => {
 
       if (isNewAvatarAdded) {
         const fileObj = dataURLtoFile(avatar, "avatar.jpg");
-        const resizedFile = await resizeFile(fileObj)
+        const resizedFile = await resizeFile(fileObj);
 
         formData.append("file", resizedFile);
       }
@@ -93,12 +92,12 @@ export const SettingsPage = () => {
         }
       );
 
-      const newUserData = response.data
+      const newUserData = response.data;
       setUserData(newUserData);
       setIsSaving(false);
-      reset()
+      reset();
     } catch (err: unknown) {
-        setIsSaving(false);
+      setIsSaving(false);
     }
   };
   return (
@@ -112,13 +111,7 @@ export const SettingsPage = () => {
             <div className="w-40 h-40 overflow-hidden rounded-full shadow-xl">
               <img src={avatar} alt="user" />
             </div>
-            <button
-              className="px-4 py-2 my-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-pink-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
-              type="button"
-              onClick={() => setIsOpen(true)}
-            >
-              Change avatar
-            </button>
+            <Button onClick={() => setIsOpen(true)}>Change avatar</Button>
           </div>
           <div className="w-full px-4 lg:w-4/12 lg:order-2">
             <div className="mt-6 text-center">
@@ -153,13 +146,12 @@ export const SettingsPage = () => {
                   label="Last Name"
                   variant={FormFieldVariant.Dark}
                 />
-                <button
+                <Button
                   type="submit"
                   disabled={disableSaveButton}
-                  className="px-4 py-2 my-4 text-sm font-bold text-white uppercase transition-all duration-150 ease-linear bg-pink-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none disabled:bg-gray-500 disabled:cursor-not-allowed"
                 >
                   Save
-                </button>
+                </Button>
               </form>
             </div>
           </div>
