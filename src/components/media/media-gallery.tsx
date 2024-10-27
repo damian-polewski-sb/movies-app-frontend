@@ -11,6 +11,7 @@ interface MediaGalleryProps {
   isFetchingData?: boolean;
   fetchCallback?: () => Promise<void>;
   totalElements?: number | undefined;
+  handleSeeAllClick?: () => void;
 }
 
 export const MediaGallery = ({
@@ -20,6 +21,7 @@ export const MediaGallery = ({
   isFetchingData = false,
   fetchCallback,
   totalElements,
+  handleSeeAllClick,
 }: MediaGalleryProps) => {
   const { ref, inView } = useInView({
     threshold: 1,
@@ -40,7 +42,7 @@ export const MediaGallery = ({
   }, [fetchCallback, inView, isFetchingData, media.length, totalElements]);
 
   return (
-    <Box label={label}>
+    <Box label={label} handleSeeAllClick={handleSeeAllClick}>
       <div className="flex flex-wrap gap-2">
         {media?.length === 0 && !isFetchingData && (
           <p className="italic">Nothing to display here...</p>

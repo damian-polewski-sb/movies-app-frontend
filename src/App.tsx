@@ -11,6 +11,7 @@ import { SearchPage } from "pages/browse/search";
 import { Layout } from "components/router/layout";
 import { RequireAuth } from "components/router/require-auth";
 import { PersistLogin } from "components/router/persist-login";
+import { ListPage } from "pages/browse/list";
 
 export const App = () => {
   return (
@@ -45,6 +46,13 @@ export const App = () => {
               <Route path="search" element={<SearchPage />} />
               <Route path="trending" element={<></>} />
               <Route path=":id" element={<MediaPage />} />
+            </Route>
+
+            {/* lists routes */}
+            <Route path="lists">
+              <Route index element={<Navigate to="home" replace />} />
+
+              <Route path=":id" element={<ListPage />} />
             </Route>
 
             {/* catch all */}
