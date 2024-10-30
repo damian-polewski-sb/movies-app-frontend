@@ -1,3 +1,9 @@
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import { MediaType } from "components/media/types";
 import { List, ListType } from "components/media/types/list.types";
 import { Button } from "components/ui";
@@ -10,6 +16,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { isMovie } from "utils/media-utils";
 import { getMediaTypeFromPath } from "utils/router-utils";
+import { ReviewForm } from "./review-form";
 
 interface MediaData {
   id: number;
@@ -44,6 +51,7 @@ export const MediaPage = () => {
   const [media, setMedia] = useState<MediaData | null>(null);
   const [watchedStatus, setWatchedStatus] = useState<boolean>(false);
   const [toWatchStatus, setToWatchStatus] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchMediaData = async () => {
@@ -177,6 +185,10 @@ export const MediaPage = () => {
     }
   };
 
+  const handleReview = () => {
+    setIsOpen((prev) => !prev);
+  };
+
   return (
     <Container className="flex flex-col max-w-screen-xl px-4">
       <div className="flex flex-col w-full min-w-0 p-4 text-white bg-gray-900 rounded-lg drop-shadow-lg">
@@ -207,10 +219,28 @@ export const MediaPage = () => {
               <Button onClick={handleToggleToWatch}>
                 {toWatchStatus ? "Plans to watch" : "Add to Plan to watched"}
               </Button>
+              <Button onClick={handleReview}>Add a review</Button>
             </div>
           </div>
         </div>
       </div>
+      <Dialog
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        className="relative z-50"
+      >
+        <DialogBackdrop className="fixed inset-0 bg-gray-800/50" />
+        <div className="fixed inset-0 w-screen p-4 overflow-y-auto">
+          <div className="flex items-center justify-center min-h-full">
+            <DialogPanel className="flex flex-col w-full max-w-lg min-w-0 p-12 px-6 py-4 space-y-4 text-white bg-gray-900 rounded-lg drop-shadow-lg">
+              <DialogTitle className="font-bold">Add review</DialogTitle>
+              <div>
+                <ReviewForm mediaId={media.id} mediaType={mediaType} handleClose={() => {setIsOpen(false)}}/>
+              </div>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
     </Container>
   );
 };
