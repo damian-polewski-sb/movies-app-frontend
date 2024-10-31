@@ -9,9 +9,9 @@ export enum InputVariant {
 }
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  variant: InputVariant;
-  label: string;
-  error: string;
+  variant?: InputVariant;
+  label?: string;
+  error?: string;
   register?: UseFormRegisterReturn;
 }
 

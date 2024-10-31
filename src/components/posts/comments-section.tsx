@@ -1,8 +1,13 @@
-import Comment from "../Comment/Comment";
-
 import SendIcon from "@mui/icons-material/Send";
 
-const Comments = () => {
+import { Comment } from "./comment";
+import { useAuth } from "hooks/use-auth";
+import { Input } from "components/ui";
+import { InputVariant } from "components/ui/input";
+
+export const CommentsSection = () => {
+  const { userData } = useAuth()
+
   // Temporary data
   const comments = [
     {
@@ -10,7 +15,7 @@ const Comments = () => {
       name: "Jan Kowalski",
       userId: 3,
       profilePicture:
-        "https://pixabay.com/get/g91076ba856bda65b5d576d6c47d9c0e4a99e5aa31a4f3f1eb9fb1386af014f3d90b4e5305e404016145710786d9e654c81f8cb3c765261d627c11db593f96aefd80bf8afcf21d7efb9de4ddf0a2f7fd8_640.jpg",
+        "https://res.cloudinary.com/dbtce39z1/image/upload/v1719329643/hzmqxahulcvkcd4ef6tl.jpg",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
     },
     {
@@ -18,7 +23,7 @@ const Comments = () => {
       name: "Ewa Materac",
       userId: 4,
       profilePicture:
-        "https://pixabay.com/get/ga0479e9d2c2390733ff618d31d1c16f960b82d144bb88c15958a160028df477cae738fae9c4e6405b0a0f08976dc3f845a40bb8c5ea3965c0e43f4da9de3a108252602a6e151c58965b9b1f15c3ac81b_640.jpg",
+        "https://res.cloudinary.com/dbtce39z1/image/upload/v1719329643/hzmqxahulcvkcd4ef6tl.jpg",
       desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit hic dolorem numquam voluptatem libero asperiores aperiam.",
     },
   ];
@@ -28,15 +33,14 @@ const Comments = () => {
       <div className="flex items-center justify-between gap-4 my-4">
         <img
           className="object-cover w-8 h-8 rounded-full"
-          src={
-            "https://upload.wikimedia.org/wikipedia/commons/6/68/Flickr_-_csztova_-_Andrew_Garfield_-_TIFF_09%27_%281%29_cropped.jpg"
-          }
+          src={userData?.profilePicture}
           alt="user"
+          draggable={false}
         />
-        <input
-          className="w-full p-2 bg-gray-900 border-b focus:outline-none"
+        <Input
           type="text"
           placeholder="Write a comment..."
+          variant={InputVariant.Dark}
         />
         <button>
           <SendIcon />
@@ -48,5 +52,3 @@ const Comments = () => {
     </div>
   );
 };
-
-export default Comments;
