@@ -24,7 +24,7 @@ export const ReviewSchema: ZodType<ReviewFormData> = z.object({
 });
 
 const getAddReviewUrl = (mediaId: number, mediaType: MediaType) =>
-  `/posts/${mediaType}/${mediaId}/review`;
+  `/posts/review/${mediaType}/${mediaId}`;
 
 interface ReviewFormProps {
   mediaId: number;

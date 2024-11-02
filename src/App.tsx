@@ -1,4 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 import { LoginPage } from "pages/login/login";
 import { RegisterPage } from "pages/register/register";
@@ -7,13 +9,16 @@ import { ProfilePage } from "pages/profile/profile";
 import { MediaPage } from "pages/browse/media";
 import { SettingsPage } from "pages/settings/settings";
 import { SearchPage } from "pages/browse/search";
+import { ListPage } from "pages/browse/list";
 
 import { Layout } from "components/router/layout";
 import { RequireAuth } from "components/router/require-auth";
 import { PersistLogin } from "components/router/persist-login";
-import { ListPage } from "pages/browse/list";
+
 
 export const App = () => {
+  TimeAgo.addDefaultLocale(en);
+
   return (
     <Routes>
       {/* public routes */}

@@ -1,11 +1,15 @@
+import { MediaType } from "components/media/types";
+
 export type PostType = {
   id: number;
-  name: string;
   userId: number;
-  profilePicture: string;
-  movieId: number;
-  movieTitle: string;
-  moviePoster: string;
-  content: string;
-  rating?: number;
+  title: string;
+  mediaId: number;
+  mediaType: MediaType;
+  posterUrl: string;
+  rating: number;
+  content?: string;
+  createdAt: Date;
+  user: { firstName: string; lastName: string; profilePicture: string };
+  _count: { likes: number; comments: number };
 };
