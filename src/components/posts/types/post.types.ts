@@ -12,4 +12,5 @@ export type PostType = {
   createdAt: Date;
   user: { firstName: string; lastName: string; profilePicture: string };
   _count: { likes: number; comments: number };
+  isLiked: boolean,
 };
