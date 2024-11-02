@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useAuth } from "hooks/use-auth";
+import { useCurrentUser } from "hooks/use-current-user";
 import { useAxiosPrivate } from "hooks/use-axios-private";
 
 import { Button } from "components/ui";
@@ -68,7 +68,7 @@ const StatsDisplay = ({
 
 export const ProfilePage = () => {
   const { userId } = useParams();
-  const { userData } = useAuth();
+  const { isCurrentUser } = useCurrentUser();
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -95,9 +95,6 @@ export const ProfilePage = () => {
 
     fetchData();
   }, [axiosPrivate, navigate, userId]);
-
-  /// @ts-expect-error
-  const isCurrentUser = parseInt(userId) === userData?.id;
 
   if (!user || isLoading) {
     return <Spinner />;
@@ -126,7 +123,7 @@ export const ProfilePage = () => {
           </div>
           <div className="w-full px-4 lg:w-4/12 lg:order-3 lg:text-right">
             <div className="flex justify-center px-3 py-6">
-              {!isCurrentUser && (
+              {!isCurrentUser(user.id) && (
                 <FollowButton isFollowed={false} handleClick={() => {}} />
               )}
             </div>

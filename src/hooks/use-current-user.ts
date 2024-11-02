@@ -1,16 +1,19 @@
 import { useAxiosPrivate } from "./use-axios-private";
 import { useAuth } from "./use-auth";
 import { List } from "components/media/types/list.types";
+import { UserDataObject } from "context/auth-provider";
 
 const getUserDataUrl = () => "/users/me";
 
 const getUsersListsUrl = (userId: number) => `/lists/user/${userId}`;
 
-export const useFetchCurrentUser = () => {
-  const { setUserData } = useAuth();
+export const useCurrentUser = () => {
+  const { userData, setUserData } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
-  const fetchData = async () => {
+  const isCurrentUser = (userId: number) => userData?.id === userId
+
+  const fetchUserData = async () => {
     const getMeResponse = await axiosPrivate.get(getUserDataUrl());
 
     const user = getMeResponse?.data;
@@ -30,5 +33,5 @@ export const useFetchCurrentUser = () => {
     setUserData(userData);
   };
 
-  return fetchData;
+  return { ...(userData as UserDataObject), isCurrentUser, fetchUserData };
 };

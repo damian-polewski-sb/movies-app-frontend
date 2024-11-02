@@ -4,13 +4,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
 import { AxiosError } from "axios";
+
 import axios from "api/axios";
+
+import { useAuth } from "hooks/use-auth";
+import { useCurrentUser } from "hooks/use-current-user";
 
 import { FormField } from "components/form/form-field";
 import { RegisterUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
-import { useAuth } from "hooks/use-auth";
-import { useFetchCurrentUser } from "hooks/use-fetch-current-user";
 
 const SIGNUP_URL = "/auth/local/signup";
 
@@ -21,7 +23,7 @@ export const RegisterForm = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/home";
 
-  const fetchData = useFetchCurrentUser();
+  const { fetchUserData } = useCurrentUser();
 
   const {
     register,
@@ -49,7 +51,7 @@ export const RegisterForm = () => {
 
       const accessToken = response?.data?.accessToken;
       setAuth({ accessToken });
-      await fetchData();
+      await fetchUserData();
 
       navigate(from, { replace: true });
     } catch (err: unknown) {

@@ -1,18 +1,19 @@
 import axios from "api/axios";
 
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosError } from "axios";
+
+import { useAuth } from "hooks/use-auth";
+import { useCurrentUser } from "hooks/use-current-user";
 
 import { FormField } from "components/form/form-field";
 import { LoginUserSchema } from "components/form/user-schema";
 import { FormData } from "components/form/types";
-import { AxiosError } from "axios";
 
-import { useLocation, useNavigate } from "react-router-dom";
 
-import { useAuth } from "hooks/use-auth";
-import { useFetchCurrentUser } from "hooks/use-fetch-current-user";
 
 const SIGNIN_URL = "/auth/local/signin";
 
@@ -23,7 +24,7 @@ export const LoginForm = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/home";
 
-  const fetchData = useFetchCurrentUser();
+  const { fetchUserData } = useCurrentUser();
 
   const {
     register,
@@ -49,7 +50,7 @@ export const LoginForm = () => {
 
       const accessToken = response?.data?.accessToken;
       setAuth({ accessToken });
-      await fetchData();
+      await fetchUserData();
 
       navigate(from, { replace: true });
     } catch (err: unknown) {
