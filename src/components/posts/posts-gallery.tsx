@@ -13,6 +13,8 @@ interface PostsGalleryProps {
 const getPostsUrl = (page: number, userId: number | undefined) =>
   `/posts?page=${page}${userId ? `&userId=${userId}` : ""}`;
 
+const getDeleteReviewUrl = (postId: number) => `/posts/${postId}`;
+
 export const PostsGallery = ({ userId }: PostsGalleryProps) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalPosts, setTotalPosts] = useState<number>();
@@ -80,6 +82,17 @@ export const PostsGallery = ({ userId }: PostsGalleryProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialLoad, inView, isLoading, posts.length, totalPosts]);
 
+  const handleDeleteReview = async (postId: number) => {
+    try {
+      await axiosPrivate.delete(getDeleteReviewUrl(postId));
+
+      setPosts(posts.filter((post) => post.id !== postId));
+      toast.success("Review has been deleted successfully!");
+    } catch (error) {
+      toast.error(error as string);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-8 px-6">
       {posts.length === 0 && !isLoading && (
@@ -92,6 +105,7 @@ export const PostsGallery = ({ userId }: PostsGalleryProps) => {
           post={post}
           key={post.id}
           ref={posts.length === index + 1 ? ref : null}
+          handleDelete={() => handleDeleteReview(post.id)}
         />
       ))}
       {isLoading && <Spinner />}

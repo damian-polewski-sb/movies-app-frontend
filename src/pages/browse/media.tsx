@@ -205,7 +205,7 @@ export const MediaPage = () => {
               <h3 className="flex justify-center mb-2 text-4xl font-semibold leading-normal">
                 {media.title}
               </h3>
-              <span className="flex justify-center px-3 py-6">
+              <span className="flex justify-center px-3 py-6 italic">
                 {`Rating: ${Math.floor(media.rating)}/10`}
               </span>
             </div>

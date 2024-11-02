@@ -1,16 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import { MediaData, MediaType } from "./types";
-import { Tooltip } from "components/ui";
 import { forwardRef } from "react";
-import { isMovie } from "utils/media-utils";
+
+import { useNavigate } from "react-router-dom";
+
+import { getLinkToMediaPage } from "utils/media-utils";
+
+import { MediaData, MediaType } from "./types";
+
+import { Tooltip } from "components/ui";
 
 interface MediaTileProps {
   media: MediaData;
   mediaType?: MediaType;
 }
-
-const getLinkToMediaPage = (id: number, mediaType: MediaType): string =>
-  `${isMovie(mediaType) ? "/movies" : "/shows"}/${id}`;
 
 export const MediaTile = forwardRef<HTMLImageElement, MediaTileProps>(
   ({ media, mediaType = MediaType.Movie }, ref) => {
