@@ -2,6 +2,7 @@ import { forwardRef, Fragment, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
+import { toast } from "react-toastify";
 
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -9,9 +10,10 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CommentIcon from "@mui/icons-material/Comment";
 
 import { PostType } from "./types";
-
-import { CommentsSection } from "./comments-section";
 import { getLinkToMediaPage } from "utils/media-utils";
+
+import { useCurrentUser } from "hooks/use-current-user";
+import { useAxiosPrivate } from "hooks/use-axios-private";
 import {
   Menu,
   MenuButton,
@@ -19,17 +21,17 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
-import { useCurrentUser } from "hooks/use-current-user";
+import { CommentsSection } from "./comments-section";
 
 interface PostProps {
   post: PostType;
-  handleLike: () => void;
-  handleUnlike: () => void;
   handleDelete: () => void;
 }
 
+const getLikeUrl = (postId: number) => `/posts/${postId}/like`;
+
 export const Post = forwardRef<HTMLDivElement, PostProps>(
-  ({ post, handleLike, handleUnlike, handleDelete }, ref) => {
+  ({ post, handleDelete }, ref) => {
     const [isLiked, setIsLiked] = useState<boolean>(post.isLiked);
     const [likesCount, setLikesCount] = useState<number>(post._count.likes);
     const [commentsCount, setCommentsCount] = useState<number>(
@@ -37,22 +39,27 @@ export const Post = forwardRef<HTMLDivElement, PostProps>(
     );
     const [commentOpen, setCommentOpen] = useState<boolean>(false);
 
+    const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
     const { isCurrentUser } = useCurrentUser();
 
     const posterUrl = post.posterUrl || "/img/default-media-poster.jpg";
 
-    const handleToggleLike = () => {
-      if (isLiked) {
-        handleUnlike();
-        setLikesCount((prev) => prev - 1);
-      } else {
-        handleLike();
-        setLikesCount((prev) => prev + 1);
+    const handleLike = async () => {
+      try {
+        if (isLiked) {
+          await axiosPrivate.delete(getLikeUrl(post.id));
+          setLikesCount((prev) => prev - 1);
+        } else {
+          await axiosPrivate.post(getLikeUrl(post.id));
+          setLikesCount((prev) => prev + 1);
+        }
+        setIsLiked((prev) => !prev);
+      } catch (error) {
+        toast.error(error as string);
       }
-      setIsLiked((prev) => !prev);
     };
-
+    
     return (
       <div
         className="p-4 text-white bg-gray-900 rounded-lg drop-shadow-lg"
@@ -138,7 +145,7 @@ export const Post = forwardRef<HTMLDivElement, PostProps>(
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex gap-1 cursor-pointer" onClick={handleToggleLike}>
+          <div className="flex gap-1 cursor-pointer" onClick={handleLike}>
             {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             <span className="text-sm">{likesCount}</span>
           </div>

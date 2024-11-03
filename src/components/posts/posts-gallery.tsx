@@ -15,8 +15,6 @@ const getPostsUrl = (page: number, userId: number | undefined) =>
 
 const getDeleteReviewUrl = (postId: number) => `/posts/${postId}`;
 
-const getLikeUrl = (postId: number) => `/posts/${postId}/like`;
-
 export const PostsGallery = ({ userId }: PostsGalleryProps) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalPosts, setTotalPosts] = useState<number>();
@@ -84,50 +82,6 @@ export const PostsGallery = ({ userId }: PostsGalleryProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialLoad, inView, isLoading, posts.length, totalPosts]);
 
-  const handleLike = async (postId: number) => {
-    try {
-      await axiosPrivate.post(getLikeUrl(postId));
-
-      setPosts(
-        posts.map((post) => {
-          if (post.id !== postId) return post;
-
-          return {
-            ...post,
-            _count: {
-              ...post._count,
-              likes: post._count.likes++,
-            },
-          };
-        })
-      );
-    } catch (error) {
-      toast.error(error as string);
-    }
-  };
-
-  const handleUnlike = async (postId: number) => {
-    try {
-      await axiosPrivate.delete(getLikeUrl(postId));
-
-      setPosts(
-        posts.map((post) => {
-          if (post.id !== postId) return post;
-
-          return {
-            ...post,
-            _count: {
-              ...post._count,
-              likes: post._count.likes--,
-            },
-          };
-        })
-      );
-    } catch (error) {
-      toast.error(error as string);
-    }
-  };
-
   const handleDeleteReview = async (postId: number) => {
     try {
       await axiosPrivate.delete(getDeleteReviewUrl(postId));
@@ -151,8 +105,6 @@ export const PostsGallery = ({ userId }: PostsGalleryProps) => {
           post={post}
           key={post.id}
           ref={posts.length === index + 1 ? ref : null}
-          handleLike={() => handleLike(post.id)}
-          handleUnlike={() => handleUnlike(post.id)}
           handleDelete={() => handleDeleteReview(post.id)}
         />
       ))}
