@@ -1,21 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import { Post } from "./post";
-import { PostType } from "./types";
+
 import { toast } from "react-toastify";
-import { useAxiosPrivate } from "hooks/use-axios-private";
 import { useInView } from "react-intersection-observer";
+
+import { useAxiosPrivate } from "hooks/use-axios-private";
+
+import { PostType } from "./types";
+
+import { Post } from "./post";
 import { Box, Spinner } from "components/ui";
 
 interface PostsGalleryProps {
   userId?: number;
+  showFollowing?: boolean;
 }
 
-const getPostsUrl = (page: number, userId: number | undefined) =>
-  `/posts?page=${page}${userId ? `&userId=${userId}` : ""}`;
+const getPostsUrl = (page: number, userId?: number, followed?: boolean) =>
+  `/posts?page=${page}${userId ? `&userId=${userId}` : ""}${
+    followed ? `&followed=${followed}` : ""
+  }`;
 
 const getDeleteReviewUrl = (postId: number) => `/posts/${postId}`;
 
-export const PostsGallery = ({ userId }: PostsGalleryProps) => {
+export const PostsGallery = ({ userId, showFollowing }: PostsGalleryProps) => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [totalPosts, setTotalPosts] = useState<number>();
   const [page, setPage] = useState<number>(1);
@@ -34,7 +41,9 @@ export const PostsGallery = ({ userId }: PostsGalleryProps) => {
     try {
       setIsLoading(true);
 
-      const response = await axiosPrivate.get(getPostsUrl(page, userId));
+      const response = await axiosPrivate.get(
+        getPostsUrl(page, userId, showFollowing)
+      );
 
       const newPosts = response?.data?.posts ?? [];
       const numberOfPosts = response?.data?.pagination?.totalPosts;
@@ -69,7 +78,7 @@ export const PostsGallery = ({ userId }: PostsGalleryProps) => {
   useEffect(() => {
     const paginate = async () => {
       if (
-        isInitialLoad &&
+        !isInitialLoad &&
         inView &&
         !isLoading &&
         (!totalPosts || posts.length < totalPosts)
