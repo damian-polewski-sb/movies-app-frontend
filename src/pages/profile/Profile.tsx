@@ -17,9 +17,16 @@ interface UserData {
   firstName: string;
   lastName: string;
   profilePicture: string;
+  followingCount: number;
+  followersCount: number;
+  isFollowed: boolean;
+  reviewsCount: number;
+  likesCount: number;
 }
 
 const getUserDataUrl = (userId: number) => `/users/${userId}`;
+
+const getFollowUrl = (userId: number) => `/users/${userId}/follow`;
 
 const FollowButton = ({
   isFollowed,
@@ -34,16 +41,24 @@ const FollowButton = ({
 };
 
 const StatsDisplay = ({
+  followingCount,
   followersCount,
   reviewsCount,
   likesCount,
 }: {
+  followingCount: number;
   followersCount: number;
   reviewsCount: number;
   likesCount: number;
 }) => {
   return (
     <div className="flex justify-center py-4 pt-8 lg:pt-4">
+      <div className="p-3 mr-4 text-center">
+        <span className="block text-xl font-bold tracking-wide uppercase">
+          {followingCount}
+        </span>
+        <span className="text-sm text-blueGray-400">Following</span>
+      </div>
       <div className="p-3 mr-4 text-center">
         <span className="block text-xl font-bold tracking-wide uppercase">
           {followersCount}
@@ -67,14 +82,15 @@ const StatsDisplay = ({
 };
 
 export const ProfilePage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<UserData>();
+  const [isFollowed, setIsFollowed] = useState<boolean>(false);
+
   const { userId } = useParams();
   const { isCurrentUser } = useCurrentUser();
 
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [user, setUser] = useState<UserData | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,7 +101,10 @@ export const ProfilePage = () => {
           getUserDataUrl(parseInt(userId))
         );
 
-        setUser(response?.data);
+        const user = response.data as UserData
+
+        setUser(user);
+        setIsFollowed(user.isFollowed);
         setIsLoading(false);
       } catch {
         toast.error("User not found!");
@@ -99,6 +118,27 @@ export const ProfilePage = () => {
   if (!user || isLoading) {
     return <Spinner />;
   }
+
+  const handleFollow = async () => {
+    try {
+      if (isFollowed) {
+        await axiosPrivate.delete(getFollowUrl(user.id));
+        setUser({
+          ...user,
+          followersCount: user.followersCount - 1,
+        });
+      } else {
+        await axiosPrivate.post(getFollowUrl(user.id));
+        setUser({
+          ...user,
+          followersCount: user.followersCount + 1,
+        });
+      }
+      setIsFollowed((prev) => !prev);
+    } catch (error) {
+      toast.error(error as string);
+    }
+  };
 
   return (
     <Container className="flex flex-col max-w-screen-xl px-4">
@@ -116,15 +156,19 @@ export const ProfilePage = () => {
               </h3>
             </div>
             <StatsDisplay
-              followersCount={20}
-              reviewsCount={10}
-              likesCount={59}
+              followingCount={user.followingCount}
+              followersCount={user.followersCount}
+              reviewsCount={user.reviewsCount}
+              likesCount={user.likesCount}
             />
           </div>
           <div className="w-full px-4 lg:w-4/12 lg:order-3 lg:text-right">
             <div className="flex justify-center px-3 py-6">
               {!isCurrentUser(user.id) && (
-                <FollowButton isFollowed={false} handleClick={() => {}} />
+                <FollowButton
+                  isFollowed={isFollowed}
+                  handleClick={handleFollow}
+                />
               )}
             </div>
           </div>
