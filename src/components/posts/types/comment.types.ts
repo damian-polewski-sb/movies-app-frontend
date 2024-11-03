@@ -1,7 +1,11 @@
 export type CommentType = {
   id: number;
-  name: string;
-  userId: number;
-  profilePicture: string;
-  desc: string;
+  createdAt: Date;
+  content: string;
+  userId: number
+  user: {
+    firstName: string,
+    lastName: string,
+    profilePicture: string
+  }
 };

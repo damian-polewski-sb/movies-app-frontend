@@ -59,7 +59,7 @@ export const Post = forwardRef<HTMLDivElement, PostProps>(
         toast.error(error as string);
       }
     };
-    
+
     return (
       <div
         className="p-4 text-white bg-gray-900 rounded-lg drop-shadow-lg"
@@ -157,7 +157,7 @@ export const Post = forwardRef<HTMLDivElement, PostProps>(
             <span className="text-sm">{commentsCount}</span>
           </div>
         </div>
-        {commentOpen && <CommentsSection />}
+        {commentOpen && <CommentsSection postId={post.id} setCommentsCount={setCommentsCount}/>}
       </div>
     );
   }
