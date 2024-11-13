@@ -1,23 +1,93 @@
-import { Fragment } from 'react'
+import { Fragment, useCallback, useEffect, useState } from "react";
 
-import { Popover, Transition } from '@headlessui/react'
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react";
 
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import { Badge } from "@mui/material";
 
-const notifications = [
-  { name: 'Analytics', description: 'Get a better understanding of your traffic', href: '#' },
-  { name: 'Engagement', description: 'Speak directly to your customers', href: '#' },
-  { name: 'Security', description: "Your customers' data will be safe and secure", href: '#' },
-  { name: 'Integrations', description: 'Connect with third-party tools', href: '#' },
-  { name: 'Automations', description: 'Build strategic funnels that will convert', href: '#' },
-]
+import { useCurrentUser } from "hooks/use-current-user";
+
+import { NotificationTile } from "./notification-tile";
+import { Notification } from "./types";
+import { toast } from "react-toastify";
+import { useAxiosPrivate } from "hooks/use-axios-private";
+import { useSocket } from "hooks/use-socket";
+
+const getNotificationsUrl = () => "/notifications";
+
+const markAllAsReadUrl = () => "/notifications/read-all";
+
+const markAsReadUrl = (notificationId: number) =>
+  `/notifications/${notificationId}/read`;
 
 export const NotificationsSummary = () => {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  const axiosPrivate = useAxiosPrivate();
+  const { id } = useCurrentUser();
+
+  const handleNotification = useCallback(
+    (notification: Notification) => {
+      setNotifications([notification, ...notifications]);
+    },
+    [notifications]
+  );
+
+  useSocket(id, handleNotification);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosPrivate.get(getNotificationsUrl());
+
+        setNotifications(response?.data ?? []);
+      } catch (error) {
+        toast.error(error as string);
+      }
+    };
+
+    fetchData();
+  }, [axiosPrivate]);
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await axiosPrivate.patch(markAllAsReadUrl());
+      setNotifications([]);
+    } catch (error) {
+      toast.error(error as string);
+    }
+  };
+
+  const handleMarkAsRead = async (notificationId: number) => {
+    try {
+      await axiosPrivate.patch(markAsReadUrl(notificationId));
+      setNotifications(
+        notifications.filter(
+          (notification) => notification.id !== notificationId
+        )
+      );
+    } catch (error) {
+      toast.error(error as string);
+    }
+  };
+
   return (
     <Popover className="relative">
-      <Popover.Button className="text-white">
-        <NotificationsIcon />
-      </Popover.Button>
+      <PopoverButton className="text-white">
+        <Badge
+          badgeContent={
+            notifications.filter((notification) => !notification.isRead).length
+          }
+          color="primary"
+        >
+          <NotificationsIcon />
+        </Badge>
+      </PopoverButton>
 
       <Transition
         as={Fragment}
@@ -28,24 +98,31 @@ export const NotificationsSummary = () => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Popover.Panel className="absolute z-10 flex w-screen px-4 mt-4 -translate-x-1/2 left-1/2 max-w-max">
-          <div className="flex-auto w-screen max-w-md overflow-hidden text-sm leading-6 bg-white shadow-lg rounded-3xl ring-1 ring-gray-900/5">
+        <PopoverPanel className="absolute z-10 flex w-screen px-4 mt-4 -translate-x-1/2 left-1/2 max-w-max max-h-96">
+          <div className="flex-auto w-screen max-w-md overflow-auto text-sm leading-6 text-gray-600 bg-white shadow-lg rounded-xl ring-1 ring-gray-900/5">
             <div className="p-4">
-              {notifications.map((item) => (
-                <div key={item.name} className="relative flex p-4 rounded-lg group gap-x-6 hover:bg-gray-50">
-                  <div>
-                    <a href={item.href} className="font-semibold text-gray-900">
-                      {item.name}
-                      <span className="absolute inset-0" />
-                    </a>
-                    <p className="mt-1 text-gray-600">{item.description}</p>
-                  </div>
+              {notifications.length >= 2 && (
+                <div
+                  className="flex justify-end mr-8 cursor-pointer"
+                  onClick={handleMarkAllAsRead}
+                >
+                  <span className="font-bold">Mark all as read</span>
                 </div>
+              )}
+              {notifications.length === 0 && (
+                <span className="italic">No notifications to display...</span>
+              )}
+              {notifications.map((notification) => (
+                <NotificationTile
+                  key={notification.id}
+                  notification={notification}
+                  handleMarkAsRead={() => handleMarkAsRead(notification.id)}
+                />
               ))}
             </div>
           </div>
-        </Popover.Panel>
+        </PopoverPanel>
       </Transition>
     </Popover>
-  )
-}
+  );
+};
