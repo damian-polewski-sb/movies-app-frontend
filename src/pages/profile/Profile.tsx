@@ -28,18 +28,6 @@ const getUserDataUrl = (userId: number) => `/users/${userId}`;
 
 const getFollowUrl = (userId: number) => `/users/${userId}/follow`;
 
-const FollowButton = ({
-  isFollowed,
-  handleClick,
-}: {
-  isFollowed: boolean;
-  handleClick: () => void;
-}) => {
-  return (
-    <Button onClick={handleClick}>{isFollowed ? "Unfollow" : "Follow"}</Button>
-  );
-};
-
 const StatsDisplay = ({
   followingCount,
   followersCount,
@@ -101,7 +89,7 @@ export const ProfilePage = () => {
           getUserDataUrl(parseInt(userId))
         );
 
-        const user = response.data as UserData
+        const user = response.data as UserData;
 
         setUser(user);
         setIsFollowed(user.isFollowed);
@@ -164,11 +152,14 @@ export const ProfilePage = () => {
           </div>
           <div className="w-full px-4 lg:w-4/12 lg:order-3 lg:text-right">
             <div className="flex justify-center px-3 py-6">
-              {!isCurrentUser(user.id) && (
-                <FollowButton
-                  isFollowed={isFollowed}
-                  handleClick={handleFollow}
-                />
+              {isCurrentUser(user.id) ? (
+                <Button onClick={() => navigate("/settings")}>
+                  Edit Profile
+                </Button>
+              ) : (
+                <Button onClick={handleFollow}>
+                  {isFollowed ? "Unfollow" : "Follow"}
+                </Button>
               )}
             </div>
           </div>
